@@ -13,6 +13,6 @@ releases:
     files: 
       - 
         name: OpsGenie Icingaweb2 Module
-        url: "https://github.com/sol1/icingaweb2-module-opsgenie/archive/master.zip"
+        url: "https://github.com/sol1/icingaweb2-module-opsgenie/archive/0.1.zip"
         description: "First release"
-        checksum: 681398faea7ad55fb994c012ec221e51
+        checksum: 293983e6908790186ac26574fff47970
