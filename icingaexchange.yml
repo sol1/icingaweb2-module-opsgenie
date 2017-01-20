@@ -15,4 +15,4 @@ releases:
         name: OpsGenie Icingaweb2 Module
         url: "git@github.com:sol1/icingaweb2-module-opsgenie.git"
         description: "First release"
-        checksum: f27ad1fdbc7f45f6f9c63e7696d8eea5e53b8875
+        checksum: 681398faea7ad55fb994c012ec221e51
