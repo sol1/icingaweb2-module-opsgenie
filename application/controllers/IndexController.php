@@ -16,7 +16,7 @@ class Opsgenie_IndexController extends Controller {
 	$hours = $this->Config()->get('opsgenie', 'duration', '24');
 	$emailDomain = $this->Config()->get('opsgenie', 'email_domain', 'example.com.au');
 
-	$dateFormat = "Y-m-d H:i";
+	$dateFormat = "Y-m-d\TH:i:s+11:00";
 
 	$fromDate = date($dateFormat);
 	$endDate = date($dateFormat, strtotime(sprintf("+%d hours", $hours)));
@@ -24,41 +24,33 @@ class Opsgenie_IndexController extends Controller {
 	$scheduleName = $_GET['schedule'];
 
 	$username = Session::getSession()->get('user')->getUsername();
-
-	$json = file_get_contents("https://api.opsgenie.com/v1/json/schedule?apiKey=$apiKey&name=$scheduleName");
-	$scheduleID = json_decode($json)->id;
-
 	
 	$requestBody = '{
-     		"apiKey": "'. $apiKey .'",
-     		"id" : "'. $scheduleID .'",
-     		"timezone" : "Australia/Sydney",
-     		"enabled" : true,
-    		"rotations" : 
-		[
-    	     		{
-				"startDate":"'. $fromDate .'",
-    	        	 	"endDate":"'. $endDate .'",
-    	        	 	"participants":["'. $username . '@' . $emailDomain . '"],
-    	        	 	"rotationType":"daily"
-    	     		}
-    		]
+		"startDate":"'. $fromDate .'",
+    	        "endDate":"'. $endDate .'",
+    		"user": {
+			"type": "user",
+    	       	 	"username": "'. $username . '@' . $emailDomain . '"
+    	     	}
 	}';
-
 
 	$opts = array('http' =>
 	    array(
 	        'method'  => 'POST',
-	        'header'  => 'Content-type: application/json', 
+	        'header'  => [
+			'Content-type: application/json',
+			'Authorization: GenieKey ' . $apiKey
+		],
 	        'content' => $requestBody
 	    )
 	);
 	
 	$context  = stream_context_create($opts);
-	
-	$result = json_decode(file_get_contents('https://api.opsgenie.com/v1/json/schedule', false, $context));
-	
-	echo "<h1>$result->status</h1>";
-	echo ($result->code != 200 ? "Error code: $result->code" : NULL);
+	$url = "https://api.opsgenie.com/v2/schedules/$scheduleName/overrides?scheduleIdentifierType=name";
+
+	$res = file_get_contents($url, false, $context);
+
+	echo "<h1>OK</h1>";
+	#echo ($result->code != 200 ? "Error code: $result->code" : NULL);
     }
 }
