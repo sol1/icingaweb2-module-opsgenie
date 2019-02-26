@@ -1,0 +1,18 @@
+name: OpsGenie Icingaweb2 Module
+description: "file:///README.md"
+url: "https://github.com/sol1/icingaweb2-module-opsgenie"
+tags: Icingaweb2 module opsgenie
+vendor: Sol1
+target: Icinga Web 2
+type: Module
+license: gplv2
+releases: 
+  - 
+    name: 0.1
+    description: "0.1 Alpha"
+    files: 
+      - 
+        name: OpsGenie Icingaweb2 Module
+        url: "https://github.com/sol1/icingaweb2-module-opsgenie/archive/0.1.zip"
+        description: "First release"
+        checksum: 293983e6908790186ac26574fff47970
